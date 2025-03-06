@@ -1,6 +1,5 @@
 # Project2: Unit Converter with Streamlit
 import streamlit as st
-from forex_python.converter import CurrencyRates
 from dotenv import load_dotenv
 import os
 
@@ -151,16 +150,6 @@ def convert_temperature(value, from_unit, to_unit):
     else:
         return celsius
 
-def convert_currency(value, from_currency, to_currency):
-    try:
-        c = CurrencyRates()
-        result = c.convert(from_currency, to_currency, value)
-        if result is None:
-            raise ValueError("Unable to fetch currency rates")
-        return result
-    except Exception as e:
-        raise ValueError(f"Currency conversion error: Please check your internet connection or try again later. ({str(e)})")
-
 def get_conversion_factors(category):
     if category == "Length":
         return {
@@ -182,10 +171,6 @@ def perform_conversion(category, value, from_unit, to_unit):
     try:
         if category == "Temperature":
             return convert_temperature(value, from_unit, to_unit)
-        elif category == "Currency":
-            if from_unit == to_unit:
-                return value
-            return convert_currency(value, from_unit, to_unit)
         else:
             conversion_factors = get_conversion_factors(category)
             base_value = value * conversion_factors[from_unit]
@@ -197,12 +182,11 @@ def perform_conversion(category, value, from_unit, to_unit):
 st.title("Smart Unit Converter")
 
 # Conversion categories
-categories = ["Length", "Weight", "Temperature", "Currency"]
+categories = ["Length", "Weight", "Temperature"]
 units = {
     "Length": ["Meters", "Kilometers", "Miles", "Feet", "Inches"],
     "Weight": ["Kilograms", "Grams", "Pounds", "Ounces"],
-    "Temperature": ["Celsius", "Fahrenheit", "Kelvin"],
-    "Currency": ["USD", "EUR", "GBP", "JPY", "PKR"]
+    "Temperature": ["Celsius", "Fahrenheit", "Kelvin"]
 }
 
 # Input fields
