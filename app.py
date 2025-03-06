@@ -1,10 +1,5 @@
 # Project2: Unit Converter with Streamlit
 import streamlit as st
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Set page config
 st.set_page_config(
